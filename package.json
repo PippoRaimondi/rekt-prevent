@@ -1,0 +1,27 @@
+{
+  "name": "rekt-prevent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PippoRaimondi/rekt-prevent.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PippoRaimondi/rekt-prevent/issues"
+  },
+  "homepage": "https://github.com/PippoRaimondi/rekt-prevent#readme",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "coingecko-api": "^1.0.10",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.13",
+    "pg": "^8.7.1"
+  }
+}
