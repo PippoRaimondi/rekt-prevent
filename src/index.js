@@ -3,12 +3,11 @@ const app = express()
 const port = 3000
 
 const getTokenPrice = require('./routes/get-token-price.js')
-const token = require('./routes/token.js')
+const portfolio = require('./routes/portfolio.js')
 
-app.get('/', getTokenPrice.listTokens)
-app.get('/allMonnioTokens', getTokenPrice.getAllMonnioToken)
-app.get('/all', getTokenPrice.listAllTokens)
 
-app.post('/createToken', token.createToken)
+app.get('/allTokens', getTokenPrice.getAllTokens)
+app.get('/portfolio', portfolio.getPortfolio)
+app.get('/portfoliotokens', portfolio.getPortfolioTokens)
 
 app.listen(port, () => {})
