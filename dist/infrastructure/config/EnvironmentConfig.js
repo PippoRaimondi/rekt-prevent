@@ -32,8 +32,26 @@ const parseConfigFromEnvironment = () => {
             adminSecret: process.env.JWT_ADMIN_SECRET || '',
             userSecret: process.env.JWT_USER_SECRET || '',
         },
+        mailer: {
+            apiKey: process.env.MAILER_API_KEY || '',
+            fromAddress: process.env.MAILER_FROM_ADDRESS || '',
+        },
         apiKeys: {
             internal: process.env.API_KEY_INTERNAL || '',
+        },
+        recaptcha: {
+            admin: {
+                siteKey: process.env.RECAPTCHA_ADMIN_SITE_KEY || '',
+                secretKey: process.env.RECAPTCHA_ADMIN_SECRET_KEY || '',
+            },
+            app: {
+                siteKey: process.env.RECAPTCHA_APP_SITE_KEY || '',
+                secretKey: process.env.RECAPTCHA_APP_SECRET_KEY || '',
+            },
+            organization: {
+                siteKey: process.env.RECAPTCHA_ORGANIZATION_SITE_KEY || '',
+                secretKey: process.env.RECAPTCHA_ORGANIZATION_SECRET_KEY || '',
+            },
         },
     };
 };

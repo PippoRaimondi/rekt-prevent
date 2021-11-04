@@ -14,8 +14,14 @@ class RepositoryFactory {
     create() {
         const initOptions = {
             extend(obj, dc) {
+                obj.admin = new repositories_1.AdminRepositoryPostgreSQL(obj, pgp);
+                obj.adminPasswordReset = new repositories_1.AdminPasswordResetRepositoryPostgreSQL(obj, pgp);
                 obj.portfolio = new repositories_1.PortfolioRepositoryPostgreSQL(obj, pgp);
                 obj.token = new repositories_1.TokenRepositoryPostgreSQL(obj, pgp);
+                obj.user = new repositories_1.UserRepositoryPostgreSQL(obj, pgp);
+                obj.userDevice = new repositories_1.UserDeviceRepositoryPostgreSQL(obj, pgp);
+                obj.userPasswordReset = new repositories_1.UserPasswordResetRepositoryPostgreSQL(obj, pgp);
+                obj.userVerification = new repositories_1.UserVerificationRepositoryPostgreSQL(obj, pgp);
             },
         };
         const pgp = (0, pg_promise_1.default)(initOptions);
