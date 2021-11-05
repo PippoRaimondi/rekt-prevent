@@ -8,11 +8,12 @@ import {
 
 export class CreateUserRequestMapper {
   static map(request: Request): CreateUserRequest {
-    const { name, email, phone } = request.body;
+    const { name, email, phone, password } = request.body;
 
     return {
       name,
       email,
+      password,
       phone,
       createdBy: request.user as Admin,
     };

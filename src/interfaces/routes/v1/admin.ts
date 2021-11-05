@@ -37,6 +37,7 @@ router.post('/auth/reset-password', authController.authorize, authController.res
 
 // /users
 router.get('/users', authController.authorize, userController.list);
+router.post('/users', authController.authorize, userController.create);
 router.get('/users/:id', userController.get);
 router.delete('/users/:id', authController.authorize, userController.delete);
 router.post('/users/:id/resend-invite', authController.authorize, userController.resendInvite);

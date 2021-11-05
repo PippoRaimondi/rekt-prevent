@@ -103,12 +103,15 @@ export class UserService {
   async create(request: CreateUserRequest): Promise<UserResponse> {
     this.createUserValidator.validate(request);
 
-    const { createdBy, email, name, phone } = request;
+    const { createdBy, email, name, phone, password } = request;
+
+    const encodedPassword = await this.authService.generatePassword(password as string);
+
     const user: User = await this.repository.create({
       name,
       status: this.DEFAULT_USER_STATUS,
       email,
-      password: this.uniqueIdentifierService.create(),
+      password: encodedPassword,
       phone: phone || null,
       createdById: createdBy?.id || 0, // System
     });

@@ -15,7 +15,7 @@ class TokenController {
         this.create = this.create.bind(this);
         this.delete = this.delete.bind(this);
         this.get = this.get.bind(this);
-        this.update = this.get.bind(this);
+        this.update = this.update.bind(this);
     }
     async list(request, response, next) {
         try {
@@ -52,14 +52,13 @@ class TokenController {
     }
     async update(request, response, next) {
         try {
-            console.log("HAAYAYAYYA");
             const id = parseInt(request.params.id);
-            const body = UpdateTokenRequestMapper_1.UpdateTokenRequestMapper.map(request.body);
+            const body = UpdateTokenRequestMapper_1.UpdateTokenRequestMapper.map(request);
             const token = await this.updateUseCase.invoke(id, body);
             return response.json(token);
         }
         catch (error) {
-            console.error(`Error on list tokens:`, error);
+            console.error(`Error on update tokens:`, error);
             next(error);
         }
     }

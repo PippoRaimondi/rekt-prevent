@@ -38,9 +38,10 @@ UPDATE ${this.TABLE_NAME}
   , initial_price = \${price}
 WHERE 
     id =  \${id}
-)
     `;
-        const result = await this.db.result(query, { id: id });
+        const newToken = TokenMapper_1.TokenMapper.mapToDatabase(token);
+        newToken.id = id;
+        const result = await this.db.result(query, newToken);
         return result.rowCount > 0;
     }
     async delete(id) {
