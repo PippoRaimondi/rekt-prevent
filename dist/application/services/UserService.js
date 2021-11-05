@@ -35,7 +35,7 @@ class UserService {
         };
     }
     async get(id) {
-        const user = await this.userAggregatorRepository.findById(id);
+        const user = await this.repository.findById(id);
         return UserMapper_1.UserMapper.map(user);
     }
     async getByEmailOrNull(email) {

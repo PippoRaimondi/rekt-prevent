@@ -16,5 +16,5 @@ exports.router.post('/auth/forgot-password', exports.authController.forgotPasswo
 exports.router.get('/auth/forgot-password/:token', exports.authController.validateForgotPasswordToken);
 exports.router.put('/account', exports.authController.authorize, exports.accountController.update);
 exports.router.get('/account/:token/welcome', exports.accountController.welcome);
-exports.router.post('/tokens', exports.tokenController.list);
+exports.router.post('/tokens', exports.authController.authorize, exports.tokenController.list);
 //# sourceMappingURL=api.js.map

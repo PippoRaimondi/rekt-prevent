@@ -27,10 +27,6 @@ class AuthController {
         return this.login(request, response, next);
     }
     async login(request, response, next) {
-        var _a, _b;
-        if ((_a = request.recaptcha) === null || _a === void 0 ? void 0 : _a.error) {
-            return response.status(404).send({ error: (_b = request.recaptcha) === null || _b === void 0 ? void 0 : _b.error });
-        }
         return await passport_1.default.authenticate('user-local', { session: false }, async (error, user) => {
             if (error || !user) {
                 return response.status(404).end();

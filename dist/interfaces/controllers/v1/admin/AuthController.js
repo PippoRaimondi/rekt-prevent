@@ -20,6 +20,7 @@ class AuthController {
     async authorize(request, response, next) {
         return await passport_1.default.authenticate('admin-jwt', { session: false }, (error, user, token) => {
             if (error || token instanceof Error) {
+                console.log(token);
                 return response.status(401).end();
             }
             return next();
@@ -29,10 +30,6 @@ class AuthController {
         return response.send(response.recaptcha).end();
     }
     async login(request, response, next) {
-        var _a, _b;
-        if ((_a = request.recaptcha) === null || _a === void 0 ? void 0 : _a.error) {
-            return response.status(404).send({ error: (_b = request.recaptcha) === null || _b === void 0 ? void 0 : _b.error });
-        }
         return await passport_1.default.authenticate('admin-local', { session: false }, async (error, user) => {
             if (error || !user) {
                 return response.status(404).end();

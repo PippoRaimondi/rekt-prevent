@@ -7,5 +7,5 @@ export interface TokenRepository {
   delete(holiday: Token): Promise<boolean>;
 
   findById(id: number): Promise<Token>;
-  findAll(filter: TokenFilter, limit: number, offset: number): Promise<[Token[], number]>;
+  findAll(filter: Partial<Token>, limit: number, offset: number): Promise<[Token[], number]>;
 }

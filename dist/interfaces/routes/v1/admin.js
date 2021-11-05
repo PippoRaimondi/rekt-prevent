@@ -9,7 +9,7 @@ exports.userController = new admin_1.UserController(app_1.userService);
 exports.router = (0, express_1.Router)();
 exports.router.get('/auth', exports.authController.authorize, exports.authController.get);
 exports.router.get('/auth/recaptcha', app_1.adminRecaptchaMiddleware.middleware.render, exports.authController.recaptcha);
-exports.router.post('/auth/login', app_1.adminRecaptchaMiddleware.middleware.verify, exports.authController.login);
+exports.router.post('/auth/login', exports.authController.login);
 exports.router.post('/auth/forgot-password', exports.authController.forgotPassword);
 exports.router.get('/auth/forgot-password/:token', exports.authController.validateForgotPasswordToken);
 exports.router.post('/auth/reset-password', exports.authController.authorize, exports.authController.resetPassword);

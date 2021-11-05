@@ -36,9 +36,9 @@ export class AuthController {
   }
 
   async login(request: Request, response: Response, next: NextFunction): Promise<Response> {
-    if (request.recaptcha?.error) {
-      return response.status(404).send({ error: request.recaptcha?.error });
-    }
+    // if (request.recaptcha?.error) {
+    //   return response.status(404).send({ error: request.recaptcha?.error });
+    // }
 
     return await passport.authenticate(
       'admin-local',

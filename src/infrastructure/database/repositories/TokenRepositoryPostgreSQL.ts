@@ -7,7 +7,7 @@ import { Token } from '../../../domain/entities/Token';
 import { IDatabaseExtended } from '../RepositoryFactory';
 import { TokenMapper } from './mappers/TokenMapper';
 
-export type Arguments = TokenFilter & {
+export type Arguments = Partial<Token> & {
   id?: number;
   limit: number;
   offset: number;
@@ -64,7 +64,8 @@ WHERE
     return record[0];
   }
 
-  findAll(filter: TokenFilter, limit: number, offset: number): Promise<[Token[], number]> {
+  findAll(filter: Partial<Token>, limit: number, offset: number): Promise<[Token[], number]> {
+    console.log(filter);
     return this.findBy({ ...filter, limit, offset });
   }
 
@@ -110,19 +111,27 @@ OFFSET
   }
 
   private getWhereClause(args: Arguments): [string, any] {
-    const { name, id } = args;
+    const { chain, description, id } = args;
+    console.log(args);
     const parameters: any = {};
 
     let whereClause = `1=1`;
+    
     if (id) {
       whereClause = `${whereClause} AND t.id = \${id}`;
       parameters.id = id;
     }
 
-    if (name) {
-      whereClause = `${whereClause} AND t.token_desc like '%${name}%'`;
-      parameters.name = name;
+    if (description) {
+      whereClause = `${whereClause} AND t.token_desc like '%${description}%'`;
+      parameters.description = description;
     }
+    
+    if (chain) {
+      whereClause = `${whereClause} AND t.chain like '%${chain}%'`;
+      parameters.chain = chain;
+    }
+    
     return [whereClause, parameters];
   }
 }
