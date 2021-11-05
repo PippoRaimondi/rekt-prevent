@@ -5,6 +5,10 @@ import {
   adminService,
   userService,
   listTokenUseCase,
+  createTokenUseCase,
+  deleteTokenUseCase,
+  getTokenUseCase,
+  updateTokenUseCase,
 } from '../../../app';
 import { AuthController, UserController } from '../../controllers/v1/admin';
 import { TokenController } from '../../controllers';
@@ -16,7 +20,7 @@ export const userController = new UserController(
   userService
 );
 
-export const tokenController = new TokenController(listTokenUseCase);
+export const tokenController = new TokenController(listTokenUseCase, createTokenUseCase, deleteTokenUseCase, getTokenUseCase, updateTokenUseCase);
 /**
  * Routes
  */
@@ -39,3 +43,7 @@ router.post('/users/:id/resend-invite', authController.authorize, userController
 
 //Tokens
 router.get('/tokens', authController.authorize, tokenController.list);
+router.post('/tokens', authController.authorize, tokenController.create);
+router.post('/token/:id', authController.authorize, tokenController.update);
+router.delete('/token/:id', authController.authorize, tokenController.delete);
+router.get('/token/:id', authController.authorize, tokenController.get);

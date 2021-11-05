@@ -1,7 +1,6 @@
 import { Token } from '../../entities/Token';
 
 export type TokenRequest = {
-  name: string;
   description: string;
   chain: string;
   price: number;

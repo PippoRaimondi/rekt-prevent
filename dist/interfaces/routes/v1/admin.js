@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.router = exports.userController = exports.authController = void 0;
+exports.router = exports.tokenController = exports.userController = exports.authController = void 0;
 const express_1 = require("express");
 const app_1 = require("../../../app");
 const admin_1 = require("../../controllers/v1/admin");
+const controllers_1 = require("../../controllers");
 exports.authController = new admin_1.AuthController(app_1.adminService);
 exports.userController = new admin_1.UserController(app_1.userService);
+exports.tokenController = new controllers_1.TokenController(app_1.listTokenUseCase, app_1.createTokenUseCase, app_1.deleteTokenUseCase, app_1.getTokenUseCase, app_1.updateTokenUseCase);
 exports.router = (0, express_1.Router)();
 exports.router.get('/auth', exports.authController.authorize, exports.authController.get);
 exports.router.get('/auth/recaptcha', app_1.adminRecaptchaMiddleware.middleware.render, exports.authController.recaptcha);
@@ -17,5 +19,9 @@ exports.router.get('/users', exports.authController.authorize, exports.userContr
 exports.router.get('/users/:id', exports.userController.get);
 exports.router.delete('/users/:id', exports.authController.authorize, exports.userController.delete);
 exports.router.post('/users/:id/resend-invite', exports.authController.authorize, exports.userController.resendInvite);
-exports.router.post('/users', exports.authController.authorize, exports.userController.create);
+exports.router.get('/tokens', exports.authController.authorize, exports.tokenController.list);
+exports.router.post('/tokens', exports.authController.authorize, exports.tokenController.create);
+exports.router.post('/token/:id', exports.authController.authorize, exports.tokenController.update);
+exports.router.delete('/token/:id', exports.authController.authorize, exports.tokenController.delete);
+exports.router.get('/token/:id', exports.authController.authorize, exports.tokenController.get);
 //# sourceMappingURL=admin.js.map

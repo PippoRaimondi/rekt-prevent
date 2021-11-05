@@ -7,9 +7,9 @@ class TokenRepositoryPostgreSQL {
     constructor(db, pgp) {
         this.db = db;
         this.pgp = pgp;
-        this.TABLE_NAME = 't_token';
+        this.TABLE_NAME = 'tokens';
     }
-    async create(portfolio) {
+    async create(token) {
         const query = `
 INSERT INTO ${this.TABLE_NAME} (
     token_desc
@@ -17,28 +17,40 @@ INSERT INTO ${this.TABLE_NAME} (
   , initial_price
 )
 VALUES (
-  \${token_desc}
+  \${description}
   , \${chain}
-  , \${initial_price}
+  , \${price}
 )
 RETURNING
   id
-  , name
   , token_desc
   , chain
   , initial_price
     `;
-        const record = await this.db.oneOrNone(query, TokenMapper_1.TokenMapper.mapToDatabase(portfolio));
+        const record = await this.db.oneOrNone(query, TokenMapper_1.TokenMapper.mapToDatabase(token));
         return TokenMapper_1.TokenMapper.mapFromDatabase(record);
     }
-    async delete(portfolio) {
+    async update(id, token) {
+        const query = `
+UPDATE ${this.TABLE_NAME} 
+    set token_desc = \${description}
+  , chain = \${chain}
+  , initial_price = \${price}
+WHERE 
+    id =  \${id}
+)
+    `;
+        const result = await this.db.result(query, { id: id });
+        return result.rowCount > 0;
+    }
+    async delete(id) {
         const query = `
 DELETE FROM
   ${this.TABLE_NAME}
 WHERE
   id = $\{id}
 `;
-        const result = await this.db.result(query, { id: portfolio.id });
+        const result = await this.db.result(query, { id: id });
         return result.rowCount > 0;
     }
     async findById(id) {
@@ -84,16 +96,21 @@ OFFSET
         ];
     }
     getWhereClause(args) {
-        const { name, id } = args;
+        const { chain, description, id } = args;
+        console.log(args);
         const parameters = {};
         let whereClause = `1=1`;
         if (id) {
             whereClause = `${whereClause} AND t.id = \${id}`;
             parameters.id = id;
         }
-        if (name) {
-            whereClause = `${whereClause} AND t.token_desc like '%${name}%'`;
-            parameters.name = name;
+        if (description) {
+            whereClause = `${whereClause} AND t.token_desc like '%${description}%'`;
+            parameters.description = description;
+        }
+        if (chain) {
+            whereClause = `${whereClause} AND t.chain like '%${chain}%'`;
+            parameters.chain = chain;
         }
         return [whereClause, parameters];
     }

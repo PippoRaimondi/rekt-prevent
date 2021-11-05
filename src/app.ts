@@ -40,6 +40,8 @@ import { CreateUserDeviceValidator } from './domain/validators/CreateUserDeviceV
 import { CreateUserJoiValidator } from './infrastructure/validators/admin/CreateUserJoiValidator';
 import { UpdateUserJoiValidator } from './infrastructure/validators/UpdateUserJoiValidator';
 import { CreateUserDeviceJoiValidator } from './infrastructure/validators/CreateUserDeviceJoiValidator';
+import { DeleteTokenUseCase } from './application/usecases/DeleteTokenUseCase';
+import { UpdateTokenUseCase } from './application/usecases/UpdateTokenUseCase';
 
 
 // Config
@@ -88,6 +90,8 @@ export const createTokenUseCase = new CreateTokenUseCase(
 export const deletePortfolioUseCase = new ListTokenUseCase(
   tokenRepository
 );
+export const deleteTokenUseCase = new DeleteTokenUseCase(tokenRepository);
+export const updateTokenUseCase = new UpdateTokenUseCase(tokenRepository);
 export const getTokenUseCase = new GetTokenUseCase(tokenRepository);
 export const listTokenUseCase = new ListTokenUseCase(tokenRepository);
 

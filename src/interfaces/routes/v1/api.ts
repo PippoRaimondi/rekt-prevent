@@ -5,7 +5,11 @@ import {
   authService,
   userService,
   userDeviceService,
-  appRecaptchaMiddleware
+  appRecaptchaMiddleware,
+  createTokenUseCase,
+  deleteTokenUseCase,
+  getTokenUseCase,
+  updateTokenUseCase
  } from '../../../app';
 import {
   TokenController,
@@ -15,7 +19,7 @@ import { AuthController, AccountController } from '../../controllers/v1';
 
 
 // Controllers
-export const tokenController = new TokenController(listTokenUseCase);
+export const tokenController = new TokenController(listTokenUseCase, createTokenUseCase, deleteTokenUseCase, getTokenUseCase, updateTokenUseCase);
 export const authController = new AuthController(authService, userService);
 export const accountController = new AccountController(userService, userDeviceService);
 

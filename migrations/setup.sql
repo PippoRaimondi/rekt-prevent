@@ -71,3 +71,10 @@ ALTER TABLE "user_devices" ADD COLUMN "device_family" VARCHAR NULL;
 
 ALTER TABLE "users" ADD COLUMN "last_login_at" timestamp DEFAULT NULL;
 
+  
+  CREATE TABLE "tokens" (
+  "id" SERIAL PRIMARY KEY,
+  "token_desc" varchar(255) NOT NULL,
+  "chain" varchar(255) NOT NULL,
+  "initial_price" NUMERIC NOT NULL
+);

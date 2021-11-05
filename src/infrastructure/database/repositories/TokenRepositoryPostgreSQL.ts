@@ -14,11 +14,11 @@ export type Arguments = Partial<Token> & {
 };
 
 export class TokenRepositoryPostgreSQL implements TokenRepository {
-  private readonly TABLE_NAME = 't_token';
+  private readonly TABLE_NAME = 'tokens';
 
   constructor(private db: IDatabaseExtended, private pgp: IMain) {}
 
-  async create(portfolio: NewToken): Promise<Token> {
+  async create(token: NewToken): Promise<Token> {
     const query = `
 INSERT INTO ${this.TABLE_NAME} (
     token_desc
@@ -26,31 +26,47 @@ INSERT INTO ${this.TABLE_NAME} (
   , initial_price
 )
 VALUES (
-  \${token_desc}
+  \${description}
   , \${chain}
-  , \${initial_price}
+  , \${price}
 )
 RETURNING
   id
-  , name
   , token_desc
   , chain
   , initial_price
     `;
 
-    const record = await this.db.oneOrNone(query, TokenMapper.mapToDatabase(portfolio));
+    const record = await this.db.oneOrNone(query, TokenMapper.mapToDatabase(token));
 
     return TokenMapper.mapFromDatabase(record);
   }
 
-  async delete(portfolio: Token): Promise<boolean> {
+  async update(id: number, token: NewToken): Promise<boolean> {
+    const query = `
+UPDATE ${this.TABLE_NAME} 
+    set token_desc = \${description}
+  , chain = \${chain}
+  , initial_price = \${price}
+WHERE 
+    id =  \${id}
+    `;
+
+    const newToken = TokenMapper.mapToDatabase(token);
+    newToken.id = id;
+    const result = await this.db.result(query, newToken);
+
+    return result.rowCount > 0;
+  }
+
+  async delete(id: number): Promise<boolean> {
     const query = `
 DELETE FROM
   ${this.TABLE_NAME}
 WHERE
   id = $\{id}
 `;
-    const result = await this.db.result(query, { id: portfolio.id });
+    const result = await this.db.result(query, { id: id });
 
     return result.rowCount > 0;
   }
@@ -65,7 +81,6 @@ WHERE
   }
 
   findAll(filter: Partial<Token>, limit: number, offset: number): Promise<[Token[], number]> {
-    console.log(filter);
     return this.findBy({ ...filter, limit, offset });
   }
 

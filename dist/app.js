@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.organizationRecaptchaMiddleware = exports.appRecaptchaMiddleware = exports.adminRecaptchaMiddleware = exports.userPassportMiddleware = exports.adminPassportMiddleware = exports.userDeviceService = exports.userService = exports.adminService = exports.listTokenUseCase = exports.getTokenUseCase = exports.deletePortfolioUseCase = exports.createTokenUseCase = exports.createUserDeviceValidator = exports.updateUserValidator = exports.createUserValidator = exports.resetPasswordValidator = exports.userMailService = exports.adminMailerService = exports.authService = exports.adminAuthService = exports.adminTokenService = exports.userTokenService = exports.uniqueIdentifierService = exports.mailService = exports.hashService = exports.mailRepository = exports.userDeviceRepository = exports.userPasswordResetRepository = exports.userVerificationRepository = exports.userAggregatorRepository = exports.adminPasswordResetRepository = exports.userRepository = exports.adminRepository = exports.tokenRepository = exports.portfolioRepository = exports.httpClient = exports.config = void 0;
+exports.organizationRecaptchaMiddleware = exports.appRecaptchaMiddleware = exports.adminRecaptchaMiddleware = exports.userPassportMiddleware = exports.adminPassportMiddleware = exports.userDeviceService = exports.userService = exports.adminService = exports.listTokenUseCase = exports.getTokenUseCase = exports.updateTokenUseCase = exports.deleteTokenUseCase = exports.deletePortfolioUseCase = exports.createTokenUseCase = exports.createUserDeviceValidator = exports.updateUserValidator = exports.createUserValidator = exports.resetPasswordValidator = exports.userMailService = exports.adminMailerService = exports.authService = exports.adminAuthService = exports.adminTokenService = exports.userTokenService = exports.uniqueIdentifierService = exports.mailService = exports.hashService = exports.mailRepository = exports.userDeviceRepository = exports.userPasswordResetRepository = exports.userVerificationRepository = exports.userAggregatorRepository = exports.adminPasswordResetRepository = exports.userRepository = exports.adminRepository = exports.tokenRepository = exports.portfolioRepository = exports.httpClient = exports.config = void 0;
 require("reflect-metadata");
 const axios_1 = __importDefault(require("axios"));
 const MailTemplateRepository_1 = require("./infrastructure/emails/MailTemplateRepository");
@@ -29,6 +29,8 @@ const ResetPasswordJoiValidator_1 = require("./infrastructure/validators/ResetPa
 const CreateUserJoiValidator_1 = require("./infrastructure/validators/admin/CreateUserJoiValidator");
 const UpdateUserJoiValidator_1 = require("./infrastructure/validators/UpdateUserJoiValidator");
 const CreateUserDeviceJoiValidator_1 = require("./infrastructure/validators/CreateUserDeviceJoiValidator");
+const DeleteTokenUseCase_1 = require("./application/usecases/DeleteTokenUseCase");
+const UpdateTokenUseCase_1 = require("./application/usecases/UpdateTokenUseCase");
 exports.config = (0, EnvironmentConfig_1.parseConfigFromEnvironment)();
 exports.httpClient = axios_1.default.create();
 const repositoryFactory = new RepositoryFactory_1.RepositoryFactory(exports.config);
@@ -49,6 +51,8 @@ exports.updateUserValidator = new UpdateUserJoiValidator_1.UpdateUserJoiValidato
 exports.createUserDeviceValidator = new CreateUserDeviceJoiValidator_1.CreateUserDeviceJoiValidator();
 exports.createTokenUseCase = new CreateTokenUseCase_1.CreateTokenUseCase(exports.tokenRepository);
 exports.deletePortfolioUseCase = new ListTokenUseCase_1.ListTokenUseCase(exports.tokenRepository);
+exports.deleteTokenUseCase = new DeleteTokenUseCase_1.DeleteTokenUseCase(exports.tokenRepository);
+exports.updateTokenUseCase = new UpdateTokenUseCase_1.UpdateTokenUseCase(exports.tokenRepository);
 exports.getTokenUseCase = new GetTokenUseCase_1.GetTokenUseCase(exports.tokenRepository);
 exports.listTokenUseCase = new ListTokenUseCase_1.ListTokenUseCase(exports.tokenRepository);
 exports.adminService = new AdminService_1.AdminService(exports.resetPasswordValidator, exports.adminRepository, exports.adminPasswordResetRepository, exports.adminAuthService, exports.adminMailerService, exports.uniqueIdentifierService);
