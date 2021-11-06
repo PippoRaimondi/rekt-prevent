@@ -1,1 +1,0 @@
-{"version":3,"file":"UserDeviceMapper.js","sourceRoot":"","sources":["../../../src/domain/mappers/UserDeviceMapper.ts"],"names":[],"mappings":";;;AAGA,MAAa,gBAAgB;IAC3B,MAAM,CAAC,GAAG,CAAC,MAAkB;QAC3B,MAAM,EAAE,MAAM,EAAE,KAAK,EAAE,IAAI,EAAE,SAAS,EAAE,GAAG,MAAM,CAAC;QAElD,OAAO;YACL,MAAM;YACN,IAAI;YACJ,KAAK;YACL,SAAS;SACV,CAAC;IACJ,CAAC;CACF;AAXD,4CAWC"}
