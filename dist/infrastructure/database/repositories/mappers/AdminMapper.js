@@ -11,9 +11,8 @@ class AdminMapper {
         };
     }
     static mapToDatabase(entity) {
-        const { id, name, email, password } = entity;
+        const { name, email, password } = entity;
         return {
-            id,
             name,
             email,
             password,

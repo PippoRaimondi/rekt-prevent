@@ -12,6 +12,46 @@ class AdminRepositoryPostgreSQL {
     findByLogin(email) {
         return this.findByEmail(email);
     }
+    async create(admin) {
+        const query = `
+INSERT INTO ${this.TABLE_NAME} (
+  name
+  , email
+  , password
+)
+VALUES (
+  \${name}
+  , \${email}
+  , \${password}
+)
+RETURNING
+  id
+  , name
+  , email
+  , password`;
+        const record = await this.db.oneOrNone(query, AdminMapper_1.AdminMapper.mapToDatabase(admin));
+        return AdminMapper_1.AdminMapper.mapFromDatabase(record);
+    }
+    async findAll() {
+        const [records, countResult] = await this.db.tx((t) => {
+            const usersQuery = `
+      SELECT
+      admin.id
+      , admin.name
+      , admin.email
+      , admin.password
+    FROM
+      ${this.TABLE_NAME} admin
+`;
+            const records = t.manyOrNone(usersQuery);
+            const count = t.one(`SELECT COUNT(1) FROM ${this.TABLE_NAME} u`);
+            return t.batch([records, count]);
+        });
+        return [
+            [...records.map((record) => AdminMapper_1.AdminMapper.mapFromDatabase(record))],
+            +countResult['count'] || 0,
+        ];
+    }
     async findById(id) {
         const query = `
 SELECT

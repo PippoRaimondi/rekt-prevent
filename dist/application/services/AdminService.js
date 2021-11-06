@@ -60,6 +60,22 @@ class AdminService {
             admin: AdminMapper_1.AdminMapper.map(admin),
         };
     }
+    async create(request) {
+        const { email, name, password } = request;
+        const encodedPassword = await this.authService.generatePassword(password);
+        const admin = await this.repository.create({
+            name,
+            email,
+            password: encodedPassword,
+        });
+        return AdminMapper_1.AdminMapper.map(admin);
+    }
+    async list() {
+        const [admins] = await this.repository.findAll();
+        return {
+            users: admins.map((admin) => AdminMapper_1.AdminMapper.map(admin)),
+        };
+    }
     isPasswordResetExpired(passwordReset) {
         const { expiresAt } = passwordReset;
         const now = new Date();

@@ -1,3 +1,4 @@
+import { NewAdmin } from 'src/application/interfaces/Admin';
 import { Admin } from '../../../../domain/entities/Admin';
 
 export class AdminMapper {
@@ -10,11 +11,10 @@ export class AdminMapper {
     };
   }
 
-  static mapToDatabase(entity: Admin): any {
-    const { id, name, email, password } = entity;
+  static mapToDatabase(entity: NewAdmin): any {
+    const { name, email, password } = entity;
 
     return {
-      id,
       name,
       email,
       password,

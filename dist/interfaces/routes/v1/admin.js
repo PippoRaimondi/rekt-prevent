@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.router = exports.tokenController = exports.userController = exports.authController = void 0;
+exports.router = exports.tokenController = exports.adminController = exports.userController = exports.authController = void 0;
 const express_1 = require("express");
 const app_1 = require("../../../app");
 const admin_1 = require("../../controllers/v1/admin");
 const controllers_1 = require("../../controllers");
 exports.authController = new admin_1.AuthController(app_1.adminService);
 exports.userController = new admin_1.UserController(app_1.userService);
+exports.adminController = new admin_1.AdminController(app_1.adminService);
 exports.tokenController = new controllers_1.TokenController(app_1.listTokenUseCase, app_1.createTokenUseCase, app_1.deleteTokenUseCase, app_1.getTokenUseCase, app_1.updateTokenUseCase);
 exports.router = (0, express_1.Router)();
 exports.router.get('/auth', exports.authController.authorize, exports.authController.get);
@@ -16,6 +17,7 @@ exports.router.post('/auth/forgot-password', exports.authController.forgotPasswo
 exports.router.get('/auth/forgot-password/:token', exports.authController.validateForgotPasswordToken);
 exports.router.post('/auth/reset-password', exports.authController.authorize, exports.authController.resetPassword);
 exports.router.get('/users', exports.authController.authorize, exports.userController.list);
+exports.router.post('/users', exports.authController.authorize, exports.userController.create);
 exports.router.get('/users/:id', exports.userController.get);
 exports.router.delete('/users/:id', exports.authController.authorize, exports.userController.delete);
 exports.router.post('/users/:id/resend-invite', exports.authController.authorize, exports.userController.resendInvite);
@@ -24,4 +26,6 @@ exports.router.post('/tokens', exports.authController.authorize, exports.tokenCo
 exports.router.post('/token/:id', exports.authController.authorize, exports.tokenController.update);
 exports.router.delete('/token/:id', exports.authController.authorize, exports.tokenController.delete);
 exports.router.get('/token/:id', exports.authController.authorize, exports.tokenController.get);
+exports.router.get('/admins', exports.authController.authorize, exports.adminController.list);
+exports.router.post('/admin', exports.authController.authorize, exports.adminController.list);
 //# sourceMappingURL=admin.js.map

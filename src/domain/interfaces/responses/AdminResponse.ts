@@ -8,3 +8,7 @@ export type AdminResponseWithToken = {
   token: string;
   admin: AdminResponse;
 };
+
+export type ListAdminResponse = {
+  users: AdminResponse[];
+};

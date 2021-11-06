@@ -49,12 +49,13 @@ class UserService {
     }
     async create(request) {
         this.createUserValidator.validate(request);
-        const { createdBy, email, name, phone } = request;
+        const { createdBy, email, name, phone, password } = request;
+        const encodedPassword = await this.authService.generatePassword(password);
         const user = await this.repository.create({
             name,
             status: this.DEFAULT_USER_STATUS,
             email,
-            password: this.uniqueIdentifierService.create(),
+            password: encodedPassword,
             phone: phone || null,
             createdById: (createdBy === null || createdBy === void 0 ? void 0 : createdBy.id) || 0,
         });

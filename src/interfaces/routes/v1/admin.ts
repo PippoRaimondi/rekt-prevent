@@ -10,7 +10,7 @@ import {
   getTokenUseCase,
   updateTokenUseCase,
 } from '../../../app';
-import { AuthController, UserController } from '../../controllers/v1/admin';
+import { AuthController, UserController, AdminController } from '../../controllers/v1/admin';
 import { TokenController } from '../../controllers';
 
 // Controllers
@@ -18,6 +18,10 @@ export const authController = new AuthController(adminService);
 
 export const userController = new UserController(
   userService
+);
+
+export const adminController = new AdminController(
+  adminService
 );
 
 export const tokenController = new TokenController(listTokenUseCase, createTokenUseCase, deleteTokenUseCase, getTokenUseCase, updateTokenUseCase);
@@ -48,3 +52,7 @@ router.post('/tokens', authController.authorize, tokenController.create);
 router.post('/token/:id', authController.authorize, tokenController.update);
 router.delete('/token/:id', authController.authorize, tokenController.delete);
 router.get('/token/:id', authController.authorize, tokenController.get);
+
+// /admins
+router.get('/admins', authController.authorize, adminController.list);
+router.post('/admin', authController.authorize, adminController.create);

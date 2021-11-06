@@ -1,4 +1,5 @@
 import { addMinutes, format } from 'date-fns';
+import { CreateAdminRequest } from 'src/domain/interfaces/admin/AdminRequest';
 
 import { ValidationError } from '../../application/errors/ValidationError';
 import { AdminPasswordResetRepository } from '../../application/repositories/AdminPasswordResetRepository';
@@ -11,6 +12,7 @@ import { ResetPasswordRequest } from '../../domain/interfaces/ResetPasswordReque
 import {
   AdminResponse,
   AdminResponseWithToken,
+  ListAdminResponse,
 } from '../../domain/interfaces/responses/AdminResponse';
 import { AdminMapper } from '../../domain/mappers/AdminMapper';
 import { ResetPasswordValidator } from '../../domain/validators/ResetPasswordValidator';
@@ -125,6 +127,31 @@ export class AdminService {
       admin: AdminMapper.map(admin),
     };
   }
+
+
+  async create(request: CreateAdminRequest): Promise<AdminResponse> {
+    const { email, name, password } = request;
+
+    const encodedPassword = await this.authService.generatePassword(password as string);
+
+    const admin: Admin = await this.repository.create({
+      name,
+      email,
+      password: encodedPassword,
+    });
+
+    return AdminMapper.map(admin);
+  }
+
+  async list(): Promise<ListAdminResponse> {
+    const [admins] = await this.repository.findAll();
+
+    return {
+      users: admins.map((admin) => AdminMapper.map(admin)),
+    };
+  }
+
+    // Create verification token and send welcome email
 
   private isPasswordResetExpired(passwordReset: AdminPasswordReset): boolean {
     const { expiresAt } = passwordReset;
